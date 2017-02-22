@@ -125,7 +125,7 @@ peekaboo.observe();</code></pre>
         <pre><code>peekaboo.unobserve("img[data-srcset]");</code></pre>
         <h3 id="peekaboo_supported">&lt;Boolean&gt; peekaboo.supported</h3>
         <p>A <code>Boolean</code> variable named <code>peekaboo.supported</code> is made available by the script to enable you to determine if the browser is supported.</p>
-        <pre><code>if(peekaboo && peekaboo.supported) {
+        <pre><code>if(peekaboo &amp;&amp; peekaboo.supported) {
     // Yeah, start doing cool things!
     peekaboo.observe({
         "pattern":"pattern",
@@ -144,9 +144,9 @@ peekaboo.observe();</code></pre>
         <pre><code>if(("IntersectionObserver" in window)
     ||
     ("requestAnimationFrame" in window
-    && "querySelectorAll" in document
-    && "addEventListener" in document
-    && "getBoundingClientRect" in document.createElement('div'))) {
+    &amp;&amp; "querySelectorAll" in document
+    &amp;&amp; "addEventListener" in document
+    &amp;&amp; "getBoundingClientRect" in document.createElement('div'))) {
     // Yeah, load the script!
 }</code></pre>
         <p>This is basically the same test performed internally by the script when setting the <code><a href="#peekaboo_supported">peekaboo.supported</a></code> variable.</p>
