@@ -6,3 +6,5 @@ Fires a one-time event whenever elements of your choice are about to scroll into
 * Fallsback to using a single scroll and resize event in other browsers but hooks into requestAnimationFrame to stop scroll jank
 * Correctly calculates if an observed element is hidden in the overflow of a parent element
 * A little over 1k when minified & gzipped
+
+See the [gitHub pages](https://freqdec.github.io/peekaboo/) demo site for more info.
