@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Peekaboo responsive image lazyloading</title>
-  <meta charset="utf-8">
-  <meta name="description" content="Using peekaboo to lazyload your nice responsive images">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
-  <link href='../../demo.css' rel='stylesheet' type='text/css'>
-  <style>
+    <title>Peekaboo responsive image lazyloading</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Using peekaboo to lazyload your nice responsive images">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+    <link href='../../demo.css' rel='stylesheet' type='text/css'>
+    <style>
 /*
     Used when the script updates the srcset of the target image
 */
@@ -58,34 +58,36 @@ img
     display: block;
     list-style-type: none;
     }
-  </style>
-  </head>
-  <body>
-    <article>
-        <h1><a href="../../index.html">Peekaboo</a></h1>
-        <h2>Image lazyload demo</h2>
-        <p>Using peekaboo to lazyload your nice responsive images. View the page source to see the gritty details.</p>
-        <h2>HTML Markup</h2>
-        <p>The demo was written with the following markup in mind:</p>
-        <pre><code>&lt;img src="/path/to/small/lowres/version.jpg"
+    </style>
+    </head>
+    <body>
+        <article>
+            <h1><a href="../../index.html">Peekaboo</a></h1>
+            <h2>Image lazyload demo</h2>
+            <p>Using peekaboo to lazyload your nice responsive images. View the page source to see the gritty details.</p>
+            <h2>HTML Markup</h2>
+            <p>The demo was written with the following markup in mind:</p>
+            <pre><code>&lt;img src="/path/to/small/lowres/version.jpg"
      srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
      data-srcset="the actual required srcset declaration"
      alt="Alt text" /&gt;</code></pre>
-        <h2>The whys and the hows</h2>
-        <h3>src</h3>
-        <p>The <code>src</code> attribute value is set to point to a lowres version of the image, served to browsers that do not take the <code>srcset</code> attribute into account.</p>
-        <h3>srcset</h3>
-        <p>The <code>srcset</code> attribute value is set to a base64 encoded transparent gif. This will be used as a placeholder for more modern browsers that do take the <code>srcset</code> attribute into account.</p>
-        <h3>data-srcset</h3>
-        <p>The real <code>srcset</code> declaration is then defined within the <code>data-srcset</code> data attribute.</p>
-        <h3>The big reveal</h3>
-        <p>Whenever the script determines the image has passed the display threshold (under 100 pixels away from the viewport in this demo), the callback function is fired which updates the image <code>srcset</code> attribute to be the value of the <code>data-srcset</code> attribute, forcing the browser to choose and download one of the images listed in the new <code>srcset</code> declaration.  The <code>data-srcset</code> attribute is then removed completely.</p>
-        <h3>The fade-in effect</h3>
-        <p>Each image passed to the callback function is given the classname <code>lazyloaded</code> which sets the opacity to 0. An <code>onload</code> event handler is set on the <code>document</code> that catches the image load event and removes the <code>lazyloaded</code> classname. This transitions the image to full opacity and provides the fade-in effect.</p>
-        <p>This is entirely optional and has nothing really to do with the lazyloading &ndash; I just thought it made the demo look better.</p>
-        <h2>Demo</h2>
-        <p>A simple demo that lazyloads 50 images as they scroll into view is shown below:</p>
-        <pre><code>peekaboo.observe({
+                 <figcaption><span>The markup used for the images within the demo</figcaption>
+            </figure>
+            <h2>The whys and the hows…</h2>
+            <h3>src</h3>
+            <p>The <code>src</code> attribute value is set to point to a lowres version of the image, served to browsers that do not take the <code>srcset</code> attribute into account.</p>
+            <h3>srcset</h3>
+            <p>The <code>srcset</code> attribute value is set to a base64 encoded transparent gif. This will be used as a placeholder for more modern browsers that do take the <code>srcset</code> attribute into account.</p>
+            <h3>data-srcset</h3>
+            <p>The real <code>srcset</code> declaration is then defined within the <code>data-srcset</code> data attribute.</p>
+            <h3>The big reveal</h3>
+            <p>Whenever the script determines the image has passed the display threshold (under 100 pixels away from the viewport in this demo), the callback function is fired which updates the image <code>srcset</code> attribute to be the value of the <code>data-srcset</code> attribute, forcing the browser to choose and download one of the images listed in the new <code>srcset</code> declaration.  The <code>data-srcset</code> attribute is then removed completely.</p>
+            <h3>The fade-in effect</h3>
+            <p>Each image passed to the callback function is given the classname <code>lazyloaded</code> which sets the opacity to 0. An <code>onload</code> event handler is set on the <code>document</code> that catches the image load event and removes the <code>lazyloaded</code> classname. This transitions the image to full opacity and provides the fade-in effect.</p>
+            <p>This is entirely optional and has nothing really to do with the lazyloading &ndash; I just thought it made the demo look better.</p>
+            <h2>Demo</h2>
+            <p>A simple demo that lazyloads 50 images as they scroll into view is shown below:</p>
+            <figure><pre><code>peekaboo.observe({
     "pattern":"img[data-srcset]",
     "callback":function(imageList) {
         imageList.forEach(function(elem) {
@@ -97,16 +99,16 @@ img
     "fastVisibilityCheck":true,
     "rootMargin":100
 });</code></pre>
-            <figcaption><span>A stripped down version of the demo source code</figcaption>
-        </figure>
-        <ul id="demo-1" class="demo">
-        </ul>
-    </article>
-    <!--
-    Loading the peekaboo script.
-    !-->
-    <script src="../../peekaboo.min.js"></script>
-    <script>
+                <figcaption><span>A stripped down version of the demo source code</figcaption>
+            </figure>
+            <ul id="demo-1" class="demo">
+            </ul>
+        </article>
+        <!--
+        Loading the peekaboo script.
+        !-->
+        <script src="../../peekaboo.js"></script>
+        <script>
 /* -----------------------------------------------------------------------------
 Start: Demo scaffolding...
 */
@@ -142,6 +144,7 @@ Start: Demo scaffolding...
             img.srcset = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
             img.src = p + "600x338.jpg?text=:(+no+srcset+support"
             img.setAttribute("data-srcset", p + "1200x675.jpg?text=Image+" + (i + 1) + "+xl 1200w, " + p + "1000x563.jpg?text=Image+" + (i + 1) + "+l 1000w, " + p + "800x450.jpg?text=Image+" + (i + 1) + "+m 800w, " + p + "600x338.jpg?text=Image+" + (i + 1) + "+s 600w, " + p + "500x282.jpg?text=Image+" + (i + 1) + "+xs 500w, " + p + "400x225.jpg?text=Image+" + (i + 1) + "+xxs 400w");
+            img.setAttribute("sizes", "(max-width: 400px) 400px, (max-width: 500px) 500px, (max-width: 600px) 600px, (max-width: 800px) 800px, (max-width: 1000px) 1000px, 1200px");
             img.setAttribute("alt", "Image " + (i + 1));
 
             figure.appendChild(img);
@@ -173,6 +176,7 @@ if("peekaboo" in window
             if(img
                 && img.nodeName === "IMG"
                 && img.classList.contains("lazyloaded")) {
+                    console.log('hi loaded', img.alt)
                 // Remove the "lazyloaded" classname and kick-off the fade-in
                 img.classList.remove("lazyloaded");
             }

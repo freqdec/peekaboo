@@ -1,5 +1,5 @@
 /*! peekaboo v1.0.0 MIT/GPL2 @freqdec */
-(function(window) {
+(function(window, document) {
     "use strict";
 
     /** @global */
@@ -58,6 +58,7 @@
          *
          * @param {Array} array The Array to iterate over
          * @param {Function} callback The function to apply to each Array member
+         * @param {Object} scope The scope in which to run the callback within
          */
         var forEach = function(array, callback, scope) {
             for (var i = 0; i < array.length; i++) {
@@ -86,14 +87,16 @@
             // fastVisibilityCheck option) whenever possible.
             while (el != document.body) {
                 rect = el.getBoundingClientRect();
-                if(!checkElementInBounds(top, left, width, height, rect.top, rect.left, rect.width, rect.height, rootMargin)) {
+                if(!checkElementInBounds(top, left, width, height, rect.top,
+                    rect.left, rect.width, rect.height, rootMargin)) {
                     return false;
                 }
                 el = el.parentNode;
             }
 
             // Finally do a viewport check
-            return checkElementInBounds(top, left, width, height, 0, 0, windowWidth, windowHeight, rootMargin);
+            return checkElementInBounds(top, left, width, height, 0, 0,
+                windowWidth, windowHeight, rootMargin);
         }
 
         /**
@@ -106,7 +109,8 @@
          */
         var leanIsVisible = function(el, rootMargin) {
             var rect = el.getBoundingClientRect();
-            return checkElementInBounds(rect.top, rect.left, rect.width, rect.height, 0, 0, windowWidth, windowHeight, rootMargin);
+            return checkElementInBounds(rect.top, rect.left, rect.width,
+                rect.height, 0, 0, windowWidth, windowHeight, rootMargin);
         }
 
         /**
@@ -156,7 +160,8 @@
             windowHeight = window.innerHeight;
 
             // Are we in a scroll container or the document
-            if(typeof eventTarget === "undefined" || typeof eventTarget.tagName === "undefined") {
+            if(typeof eventTarget === "undefined"
+                || typeof eventTarget.tagName === "undefined") {
                 evtTarget = document;
             } else if(eventTarget){
                 evtTarget = eventTarget;
@@ -225,7 +230,7 @@
          * Callback for the scroll and resize events for browsers that have no
          * InteractionObserver support.
          *
-         * @param {UIEvent} [e] scroll/resize event Object
+         * @param {UIEvent} e scroll/resize event Object
          */
         var scrollResizeHandler = function(e) {
             if(!tick) {
@@ -304,7 +309,8 @@
             elemList.forEach(function(elem) {
                 var pattern = elem.target.getAttribute("data-peekaboo");
 
-                if(!observers.hasOwnProperty(pattern)) {
+                if (!observers.hasOwnProperty(pattern)
+                    || elem.intersectionRatio <= 0) {
                     return;
                 }
 
@@ -333,6 +339,7 @@
          * older non-compliant browsers and wish to return a public API stub
          */
         var init = function(observeFunction) {
+
             return !observeFunction ? {
                 "observe":function() {},
                 "unobserve":function() {},
@@ -387,4 +394,4 @@
 
     window.peekaboo = peekaboo;
 
-})(window);
+})(window, document);

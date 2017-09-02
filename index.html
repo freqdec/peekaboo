@@ -115,17 +115,20 @@
         <h4>Adding observable elements to the DOM dynamically</h4>
         <p>If no configuration object is passed to the <code><a href="#peekaboo_observe">peekaboo.observe</a></code> method, the script cycles through the list of currently assigned patterns and recalculates the observable element set for each. This is a useful way to update the scripts
             internal element list if potential observable elements have been added to the DOM dynamically.</p>
-        <pre><code>// Add an observable element to the DOM
+        <figure><pre><code>// Add an observable element to the DOM
 document.body.appendChild(newObservableElement);
 // Now tell peekaboo about it
 peekaboo.observe();</code></pre>
-
+            <figcaption><span>An example showing how to observe dynamically created elements</a></span></figcaption>
+        </figure>
         <h3>peekaboo.unobserve(&lt;String&gt;)</h3>
         <p>Should you no longer need to observe elements, just call the <code>peekaboo.unobserve</code> method, passing in a <code>String</code> value representing a CSS Selector previously used when calling <code><a href="#peekaboo_observe">peekaboo.observe</a></code>.</p>
-        <pre><code>peekaboo.unobserve("img[data-srcset]");</code></pre>
+        <figure><pre><code>peekaboo.unobserve("img[data-srcset]");</code></pre>
+            <figcaption><span>An example showing how to unobserve elements</a></span></figcaption>
+        </figure>
         <h3 id="peekaboo_supported">&lt;Boolean&gt; peekaboo.supported</h3>
         <p>A <code>Boolean</code> variable named <code>peekaboo.supported</code> is made available by the script to enable you to determine if the browser is supported.</p>
-        <pre><code>if(peekaboo &amp;&amp; peekaboo.supported) {
+        <figure><pre><code>if(peekaboo &amp;&amp; peekaboo.supported) {
     // Yeah, start doing cool things!
     peekaboo.observe({
         "pattern":"pattern",
@@ -134,14 +137,19 @@ peekaboo.observe();</code></pre>
 } else {
     // Yikes, start the backup plan!
 }</code></pre>
+            <figcaption><span>An example showing how to determine browser support</a></span></figcaption>
+        </figure>
         <h2>Browser support</h2>
-        <p>Modern browsers only (IE10+). The script relies on either the <code>InteractionObserver</code> API or a mix of <code>addEventListener</code>, <code>querySelectorAll</code>, <code>requestAnimationFrame</code> and <code>getBoundingClientRect</code> &ndash; which limits it to a more modern browser experience. IE9 support is theoretically available if <code>requestAnimationFrame</code> is polyfilled.</p>
+        <p>Modern browsers only (IE10+). The script relies on either the <code>IntersectionObserver</code> API or a mix of <code>addEventListener</code>, <code>querySelectorAll</code>, <code>requestAnimationFrame</code> and <code>getBoundingClientRect</code> &ndash; which limits it to a more modern browser experience. Hopefully browser uptake for the <code>IntersectionObserver</code> API will be swift and this script will be obsolete in the near future (<a href="https://caniuse.com/#search=IntersectionObserver">caniuse</a>).</p>
         <h2>Loading the script</h2>
-        <p>The script should be placed just before the closing <code>&lt;/body&gt;</code> tag.</p>
-        <pre><code>&lt;script src="/the/path/to/peekaboo.min.js"&gt;&lt;/script&gt;</code></pre>
+        <p>The script should be placed just before the closing <code>&lt;/body&gt;</code> tag as it requires the DOM to be populated before initialisation.</p>
+        <figure><pre><code>    &lt;script src="/the/path/to/peekaboo.min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            <figcaption><span>An example showing where to place the script within the markup</a></span></figcaption>
+        </figure>
         <h3>&#8220;Cuts the mustard&#8221; async loading</h3>
         <p>If you already use an async file loader (such as <a href="https://github.com/filamentgroup/loadJS">loadJS</a>) then the following cuts the mustard test can be performed before loading the script:</p>
-        <pre><code>if(("IntersectionObserver" in window)
+        <figure><pre><code>if(("IntersectionObserver" in window)
     ||
     ("requestAnimationFrame" in window
     &amp;&amp; "querySelectorAll" in document
@@ -149,23 +157,25 @@ peekaboo.observe();</code></pre>
     &amp;&amp; "getBoundingClientRect" in document.createElement('div'))) {
     // Yeah, load the script!
 }</code></pre>
+            <figcaption><span>The cuts the mustard test used by the script</a></span></figcaption>
+        </figure>
         <p>This is basically the same test performed internally by the script when setting the <code><a href="#peekaboo_supported">peekaboo.supported</a></code> variable.</p>
         <p>This may seem a bit heavy handed but <code>requestAnimationFrame</code> is often polyfilled and the check for IE9+ needed to be as failsafe as possible.</p>
         <h2>Performance matters</h2>
         <p>Any script that&#8217;s observing DOM elements will undoubtedly demand CPU cycles but the following speed gains have been integrated:</p>
         <ul>
-            <li>Uses the very fast <code>InteractionObserver</code> API where possible</li>
-            <li>Attempts to reuse the same <code>InteractionObserver</code> instance where possible for all calls to <code>peekaboo.observe</code></li>
+            <li>Uses the very fast <code>IntersectionObserver</code> API where possible</li>
+            <li>Attempts to reuse the same <code>IntersectionObserver</code> instance where possible for all calls to <code>peekaboo.observe</code></li>
             <li>Fallsback to using a single <code>scroll</code> and <code>resize</code> event in other browsers but hooks into <code>requestAnimationFrame</code> to stop scroll jank</li>
             <li>Automatically removes the <code>scroll</code> and <code>resize</code> event handler when no longer needed</li>
             <li>Caches element lists to reduce the <code>querySelectorAll</code> overhead to a bare minimum when the <code>scroll</code>/<code>resize</code> fallback is used</li>
             <li>Caches window <code>height</code> and <code>width</code> to help avoid layout thrashing</li>
-            <li>Ships with a <a href="#fastVisibilityCheck"><code>fastVisibilityCheck</code></a> option for speeding things up even more (where possible)</li>
+            <li>Ships with a <a href="#fastVisibilityCheck"><code>fastVisibilityCheck</code></a> option for speeding things up even more (where possible) on browsers that don&#8217;t support the <code>IntersectionObserver</code></li>
             <li>Batches callbacks i.e. one callback for many elements, not one callback per element</li>
         </ul>
         <h2 id="demo">Demo</h2>
         <p>A demo that covers <a href="./demo/srcset-lazyload/index.html">lazyloading responsive images</a> is also available. A simple demo that animates 500 list items as they scroll into view is shown below:</p>
-<pre><code>peekaboo.observe({
+        <figure><pre><code>peekaboo.observe({
     "pattern": ".lazyfadein",
     "callback": function(elemArray) {
         elemArray.forEach(function(elem) {
@@ -173,6 +183,8 @@ peekaboo.observe();</code></pre>
         })
     }
 });</code></pre>
+            <figcaption><span>The peekaboo.observe call made within the demo</a></span></figcaption>
+        </figure>
         <ul class="demo" id="demo-1"></ul>
         <h3>A fixed height wrapper with overflow test</h3>
         <div id="demo-constrained">
@@ -187,7 +199,7 @@ peekaboo.observe();</code></pre>
     </article>
     <!-- Badge by http://tholman.com/github-corners/ //-->
     <a href="https://github.com/freqdec/peekaboo" class="github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-    <script src="peekaboo.min.js"></script>
+    <script src="peekaboo.js"></script>
     <script>
 /* ----------------------------------------------------------------------------------
 Start: Demo scaffolding...
