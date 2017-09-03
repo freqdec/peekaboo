@@ -42,12 +42,12 @@
             */
             windowHeight,
             /**
-            * Does the browser support the InteractionObserver Interface
+            * Does the browser support the IntersectionObserver Interface
             * @var {Boolean} supportsIO
             */
             supportsIO = ("IntersectionObserver" in window),
             /**
-             * An key/value store for the InteractionObservers
+             * An key/value store for the IntersectionObserver
              * @var {Object} iO
              */
             iO = {};
@@ -228,7 +228,7 @@
 
         /**
          * Callback for the scroll and resize events for browsers that have no
-         * InteractionObserver support.
+         * IntersectionObserver support.
          *
          * @param {UIEvent} e scroll/resize event Object
          */
@@ -241,7 +241,7 @@
         }
 
         /**
-         * Passes any required elements to the InteractionObserver.
+         * Passes any required elements to the IntersectionObserver.
          */
         var observeElements = function() {
             var pattern,
@@ -269,7 +269,7 @@
 
         /**
          * Stops the elements that match the CSS Selector pattern from being
-         * observed and cleans up any InteractionObservers now not being used.
+         * observed and cleans up any IntersectionObservers now not being used.
          *
          * @param {String} pattern The CSS Selector pattern to stop observing
          */
@@ -298,7 +298,7 @@
         }
 
         /**
-         * Callback for the InteractionObserver.
+         * Callback for the IntersectionObserver.
          *
          * @param {Array} elemList An Array of IntersectionObserverEntry Objects
          */
