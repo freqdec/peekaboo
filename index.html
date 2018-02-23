@@ -9,39 +9,45 @@
     <style>
         .demo,
         .demo li {
-            float: none;
             padding: 0;
-            margin: 0 auto 1.5em auto;
-            display: block;
-            list-style-type: none;
-            text-align: center;
+            margin : 0;
+            list-style-type: none;           
+        }
+
+        .demo {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            margin: 0 auto 24px auto;
+            margin: 0 auto 2rem auto; 
         }
 
         .demo li {
+            text-align: center;
             line-height: 2em;
             background: #ccc;
-            font-family: georgia, serif;
-            font-size: 3em;
+            font-size: 1.2em;
             font-weight: lighter;
-            padding: 2em 0;
-            margin: 0;
+            font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;           
             display: block;
+            padding-top: 8em;
+            transition: all 0.6s cubic-bezier(.87, -.41, .19, 1.44);
             opacity: 1;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
-            color: rgba(0, 0, 0, 0.8);
-            -moz-transition: opacity 0.6s cubic-bezier(.87, -.41, .19, 1.44);
-            -webkit-transition: opacity 0.6s cubic-bezier(.87, -.41, .19, 1.44);
-            transition: opacity 0.6s cubic-bezier(.87, -.41, .19, 1.44);
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
+            transform: scale(1);           
+        }
+
+        .demo li span {
+            background: #fff;
+            color: #222;
+            display: block;
+            padding: 1em 0;
+            text-align: center;
+            margin: 2px;
         }
 
         .demo li.lazyfadein {
             opacity: .2;
+            transform: scale(0.4);
         }
     </style>
 </head>
@@ -57,7 +63,7 @@
             <li>Correctly calculates if an observed element is hidden in the overflow of a parent element</li>
             <li>A little over 1k when minified &amp; gzipped</li>
         </ul>
-        <h2>API</h2>
+        <h2>The Peekaboo API</h2>
         <p>The API was kept small and focused &ndash; It contains only two methods, both of which are described below:</p>
         <h3>&lt;Object&gt; window.peekaboo</h3>
         <p>An Object <code>window.peekaboo</code> is made available. It makes public the following API methods.</p>
@@ -141,9 +147,9 @@ peekaboo.observe();</code></pre>
             <figcaption><span>An example showing how to determine browser support</a></span></figcaption>
         </figure>
         <h2>Browser support</h2>
-        <p>Modern browsers only (IE10+). The script relies on either the <code>IntersectionObserver</code> API or a mix of <code>addEventListener</code>, <code>querySelectorAll</code>, <code>requestAnimationFrame</code> and <code>getBoundingClientRect</code> &ndash; which limits it to a more modern browser experience. Hopefully browser uptake for the <code>IntersectionObserver</code> API will be swift and this script will be obsolete in the near future (<a href="https://caniuse.com/#search=IntersectionObserver">caniuse</a>).</p>
+        <p>Modern browsers only (IE10+). The script relies on either the <code>IntersectionObserver</code> API or a mix of <code>addEventListener</code>, <code>querySelectorAll</code>, <code>requestAnimationFrame</code> and <code>getBoundingClientRect</code> &ndash; which limits it to a more modern browser experience. Hopefully browser uptake for the <code>IntersectionObserver</code> API will be swift and this script will be obsolete in the near future (<a href="https://caniuse.com/#search=IntersectionObserver">caniuse: Intersection Observer</a>).</p>
         <h2>Loading the script</h2>
-        <p>The script should be placed just before the closing <code>&lt;/body&gt;</code> tag as it requires the DOM to be populated before initialisation.</p>
+        <p>Add the script to the page source code as shown below. It&#8217;s a good idea to add it directly before the closing <code>&lt;/body&gt;</code> tag as it requires the DOM to be populated before initialisation.</p>
         <figure><pre><code>    &lt;script src="/the/path/to/peekaboo.min.js"&gt;&lt;/script&gt;
 &lt;/body&gt;</code></pre>
             <figcaption><span>An example showing where to place the script within the markup</a></span></figcaption>
@@ -167,15 +173,18 @@ peekaboo.observe();</code></pre>
         <ul>
             <li>Uses the very fast <code>IntersectionObserver</code> API where possible</li>
             <li>Attempts to reuse the same <code>IntersectionObserver</code> instance where possible for all calls to <code>peekaboo.observe</code></li>
-            <li>Fallsback to using a single <code>scroll</code> and <code>resize</code> event in other browsers but hooks into <code>requestAnimationFrame</code> to stop scroll jank</li>
-            <li>Automatically removes the <code>scroll</code> and <code>resize</code> event handler when no longer needed</li>
-            <li>Caches element lists to reduce the <code>querySelectorAll</code> overhead to a bare minimum when the <code>scroll</code>/<code>resize</code> fallback is used</li>
-            <li>Caches window <code>height</code> and <code>width</code> to help avoid layout thrashing</li>
-            <li>Ships with a <a href="#fastVisibilityCheck"><code>fastVisibilityCheck</code></a> option for speeding things up even more (where possible) on browsers that don&#8217;t support the <code>IntersectionObserver</code></li>
             <li>Batches callbacks i.e. one callback for many elements, not one callback per element</li>
+            <li>For browsers that don&#8217;t support the <code>IntersectionObserver</code>&#8230;
+                <ul>
+                    <li>Fallsback to using a single <code>scroll</code> and <code>resize</code> event in other browsers but hooks into <code>requestAnimationFrame</code> to stop scroll jank</li>
+                    <li>Automatically removes the <code>scroll</code> and <code>resize</code> event handler when no longer needed</li>
+                    <li>Caches element lists to reduce the <code>querySelectorAll</code> overhead to a bare minimum when the <code>scroll</code>/<code>resize</code> fallback is used</li>
+                    <li>Caches window <code>height</code> and <code>width</code> to help avoid layout thrashing</li>
+                    <li>Ships with a <a href="#fastVisibilityCheck"><code>fastVisibilityCheck</code></a> option for speeding things up even more</li>
+                </ul>
         </ul>
-        <h2 id="demo">Demo</h2>
-        <p>A demo that covers <a href="./demo/srcset-lazyload/index.html">lazyloading responsive images</a> is also available. A simple demo that animates 500 list items as they scroll into view is shown below:</p>
+        <h2 id="demo">Demo &#8216;Pantone&#8217;</h2>
+        <p>A simple demo that animates 500 list items (dressed up as Pantone cards and with random background colours) as they scroll into view is shown below. A demo that covers <a href="./demo/srcset-lazyload/index.html">lazyloading responsive images</a> is also available.</p>
         <figure><pre><code>peekaboo.observe({
     "pattern": ".lazyfadein",
     "callback": function(elemArray) {
@@ -184,7 +193,7 @@ peekaboo.observe();</code></pre>
         })
     }
 });</code></pre>
-            <figcaption><span>The peekaboo.observe call made within the demo</a></span></figcaption>
+            <figcaption><span>The peekaboo.observe call made within the &#8216;Pantone&#8217; demo</a></span></figcaption>
         </figure>
         <ul class="demo" id="demo-1"></ul>
         <h3>A fixed height wrapper with overflow test</h3>
@@ -208,15 +217,19 @@ Start: Demo scaffolding...
 (function() {
     function createListElements() {
         var docFrag = document.createDocumentFragment(),
-            li, i;
+            li, span, i, backgroundColor;
 
         for (i = 1; i < 250; i++) {
+            // Set a random background colour
+            backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
             li = document.createElement('li');
+            span = document.createElement('span');
             // Set a classname we can use later when invoking the peekaboo script
             li.className = peekaboo && peekaboo.supported ? "lazyfadein" : "";
-            li.appendChild(document.createTextNode(i));
-            // Set a random background colour
-            li.style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            span.appendChild(document.createTextNode(backgroundColor));
+            li.appendChild(span);
+            
+            li.style.backgroundColor = backgroundColor;
             docFrag.appendChild(li);
         }
 

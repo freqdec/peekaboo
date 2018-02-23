@@ -73,7 +73,7 @@
          * @param {HTMLElement} el The DOM element to check
          * @returns {Boolean}
          */
-        var meanIsVisible = function(el, rootMargin){
+        var meanIsVisible = function(el, rootMargin) {
             var rect = el.getBoundingClientRect(),
                 top = rect.top,
                 left = rect.left,
@@ -87,8 +87,9 @@
             // fastVisibilityCheck option) whenever possible.
             while (el != document.body) {
                 rect = el.getBoundingClientRect();
-                if(!checkElementInBounds(top, left, width, height, rect.top,
+                if (!checkElementInBounds(top, left, width, height, rect.top,
                     rect.left, rect.width, rect.height, rootMargin)) {
+                        
                     return false;
                 }
                 el = el.parentNode;
@@ -160,17 +161,17 @@
             windowHeight = window.innerHeight;
 
             // Are we in a scroll container or the document
-            if(typeof eventTarget === "undefined"
+            if (typeof eventTarget === "undefined"
                 || typeof eventTarget.tagName === "undefined") {
                 evtTarget = document;
-            } else if(eventTarget){
+            } else if (eventTarget){
                 evtTarget = eventTarget;
             }
 
             for (pattern in observers) {
-                if(observers.hasOwnProperty(pattern)) {
+                if (observers.hasOwnProperty(pattern)) {
                     // Can also be a DOMHighResTimeStamp so we need the ===
-                    if(recalculateElementList === true) {
+                    if (recalculateElementList === true) {
                         // IE9+ due to use of Array.prototype.slice.call
                         observers[pattern].elemList = Array.prototype.slice.call(evtTarget.querySelectorAll(pattern + ":not([data-peekaboo])"));
                     }
@@ -182,24 +183,26 @@
 
                     // IE9+ due to use of filter
                     observers[pattern].elemList = observers[pattern].elemList.filter(function(elem) {
-                        if(inViewport(elem, rootMargin)) {
+                        if (inViewport(elem, rootMargin)) {
                             elem.setAttribute("data-peekaboo", pattern);
                             elemReveal.push(elem);
+
                             return false;
                         }
+
                         return true;
                     });
 
-                    if(elemReveal.length) {
+                    if (elemReveal.length) {
                         elemRevealTotal += elemReveal.length;
                         observers[pattern].callback(elemReveal);
                     }
                 }
             }
 
-            if(elemTotal - elemRevealTotal > 0 && !listenersAdded) {
+            if (elemTotal - elemRevealTotal > 0 && !listenersAdded) {
                 addOldSchoolListeners();
-            } else if(!elemTotal && listenersAdded) {
+            } else if (!elemTotal && listenersAdded) {
                 removeOldSchoolListeners();
             }
 
@@ -233,7 +236,7 @@
          * @param {UIEvent} e scroll/resize event Object
          */
         var scrollResizeHandler = function(e) {
-            if(!tick) {
+            if (!tick) {
                 eventTarget = e && e.target ? e.target : undefined;
                 requestAnimationFrame(updateElements);
     	    }
@@ -248,9 +251,9 @@
                 rootMargin;
 
             for(pattern in observers) {
-                if(observers.hasOwnProperty(pattern)) {
+                if (observers.hasOwnProperty(pattern)) {
                     rootMargin = observers[pattern].rootMargin;
-                    if(!iO.hasOwnProperty(rootMargin)) {
+                    if (!iO.hasOwnProperty(rootMargin)) {
                         iO[rootMargin] = new IntersectionObserver(
                             observerCallback,
                             {
@@ -258,6 +261,7 @@
                             }
                         );
                     }
+
                     // Only grab elements we are not already observing
                     forEach(document.querySelectorAll(pattern + ":not([data-peekaboo])"), function(elem) {
                         elem.setAttribute("data-peekaboo", pattern);
@@ -277,18 +281,21 @@
             var elemList,
                 rootMargin;
 
-            if(observers.hasOwnProperty(pattern)) {
+            if (observers.hasOwnProperty(pattern)) {
                 rootMargin = observers[pattern].rootMargin;
                 forEach(document.querySelectorAll(pattern), function(elem) {
                     elem.removeAttribute("data-peekaboo");
-                    if(supportsIO) {
+                    if (supportsIO) {
                         iO[rootMargin].unobserve(elem);
                     }
                 });
+
                 delete observers[pattern];
-                if(iO.hasOwnProperty(rootMargin)) {
+
+                if (iO.hasOwnProperty(rootMargin)) {
                     for(pattern in observers) {
-                        if(observers.hasOwnProperty(pattern) && observers[pattern].rootMargin == rootMargin) {
+                        if (observers.hasOwnProperty(pattern) && observers[pattern].rootMargin == rootMargin) {
+
                             return;
                         }
                     }
@@ -311,10 +318,11 @@
 
                 if (!observers.hasOwnProperty(pattern)
                     || elem.intersectionRatio <= 0) {
+
                     return;
                 }
 
-                if(!(pattern in cbList)) {
+                if (!(pattern in cbList)) {
                     cbList[pattern] = [];
                 }
 
@@ -325,7 +333,7 @@
             });
 
             for(pattern in cbList) {
-                if(cbList.hasOwnProperty(pattern)) {
+                if (cbList.hasOwnProperty(pattern)) {
                     observers[pattern].callback(cbList[pattern]);
                 }
             }
@@ -340,51 +348,53 @@
          */
         var init = function(observeFunction) {
 
-            return !observeFunction ? {
-                "observe":function() {},
-                "unobserve":function() {},
-                "supported":false
+            return observeFunction === false ? {
+                "observe": function() {},
+                "unobserve": function() {},
+                "supported": false
             } : {
                 "observe": function(argObj) {
-                    if(typeof argObj === "object") {
-                        if(!typeof argObj.callback === "function") {
-                            throw "No callback function passed within initialisation Object [callback]";
-                        } else if(!(argObj.hasOwnProperty("pattern") && argObj.pattern)) {
-                            throw "No CSS Selector passed within initialisation Object [pattern]";
+                    if (typeof argObj === "object") {
+                        if (!typeof argObj.callback === "function") {
+                            throw new Error("No callback function passed within initialisation Object [callback]");
+                        } else if (!(argObj.hasOwnProperty("pattern") && argObj.pattern)) {
+                            throw new Error("No CSS Selector passed within initialisation Object [pattern]");
                         }
 
                         // I can't find a better way to test the validity of a CSS Selector
                         try {
                             document.querySelectorAll(argObj.pattern + ":not([data-peekaboo])");
                         } catch (e) {
-                            throw "Could not instantiate the CSS Selector [pattern]: " + argObj.pattern;
+                            throw new Error("Could not instantiate the CSS Selector [pattern]: " + argObj.pattern);
                         }
 
-                        if(argObj.pattern in observers) {
-                            throw "The CSS Selector [pattern] is already being observed: " + argObj.pattern;
+                        if (argObj.pattern in observers) {
+                            throw new Error("The CSS Selector [pattern] is already being observed: " + argObj.pattern);
                         }
 
                         observers[argObj.pattern] = {
-                            "callback":argObj.callback,
-                            "fastVisibilityCheck":!!argObj.fastVisibilityCheck,
-                            "rootMargin":argObj.hasOwnProperty("rootMargin") && parseInt(argObj.rootMargin, 10) == argObj.rootMargin ? argObj.rootMargin : _rootMargin
+                            "callback": argObj.callback,
+                            "fastVisibilityCheck": !!argObj.fastVisibilityCheck,
+                            "rootMargin": argObj.hasOwnProperty("rootMargin") && parseInt(argObj.rootMargin, 10) == argObj.rootMargin ? argObj.rootMargin : _rootMargin
                         }
                     }
                     observeFunction(true);
                 },
-                "unobserve":unobserveElements,
-                "supported":true
+                "unobserve": unobserveElements,
+                "supported": true
             };
         }
 
         // Chrome only as of time of writing...
-        if("IntersectionObserver" in window) {
+        if ("IntersectionObserver" in window) {
+            
             return init(observeElements);
         // Other newish browsers (IE10+)
-        } else if("requestAnimationFrame" in window
+        } else if ("requestAnimationFrame" in window
                     && "querySelectorAll" in document
                     && "addEventListener" in document
                     && "getBoundingClientRect" in document.createElement('div')) {
+
             return init(updateElements);
         }
 

@@ -52,7 +52,6 @@ img
 .demo,
 .demo li
     {
-    float: none;
     padding: 0;
     margin: 0 auto 1.5em auto;
     display: block;
@@ -143,7 +142,7 @@ Start: Demo scaffolding...
 
             img.srcset = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
             img.src = p + "600x338.jpg?text=:(+no+srcset+support"
-            img.setAttribute("data-srcset", p + "1200x675.jpg?text=Image+" + (i + 1) + "+xl 1200w, " + p + "1000x563.jpg?text=Image+" + (i + 1) + "+l 1000w, " + p + "800x450.jpg?text=Image+" + (i + 1) + "+m 800w, " + p + "600x338.jpg?text=Image+" + (i + 1) + "+s 600w, " + p + "500x282.jpg?text=Image+" + (i + 1) + "+xs 500w, " + p + "400x225.jpg?text=Image+" + (i + 1) + "+xxs 400w");
+            img.setAttribute("data-srcset", p + "1200x675/000/fff.jpg?text=Image+" + (i + 1) + "+xl 1200w, " + p + "1000x563/000/fff.jpg?text=Image+" + (i + 1) + "+l 1000w, " + p + "800x450/000/fff.jpg?text=Image+" + (i + 1) + "+m 800w, " + p + "600x338/000/fff.jpg?text=Image+" + (i + 1) + "+s 600w, " + p + "500x282/000/fff.jpg?text=Image+" + (i + 1) + "+xs 500w, " + p + "400x225/000/fff.jpg?text=Image+" + (i + 1) + "+xxs 400w");           
             img.setAttribute("sizes", "(max-width: 400px) 400px, (max-width: 500px) 500px, (max-width: 600px) 600px, (max-width: 800px) 800px, (max-width: 1000px) 1000px, 1200px");
             img.setAttribute("alt", "Image " + (i + 1));
 
