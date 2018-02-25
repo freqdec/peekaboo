@@ -87,16 +87,16 @@ img
             <h2>Demo</h2>
             <p>A simple demo that lazyloads 50 images as they scroll into view is shown below:</p>
             <figure><pre><code>peekaboo.observe({
-    "pattern":"img[data-srcset]",
-    "callback":function(imageList) {
+    "pattern": "img[data-srcset]",
+    "callback": function(imageList) {
         imageList.forEach(function(elem) {
             elem.classList.add("lazyloaded");
             elem.setAttribute("srcset", elem.getAttribute("data-srcset"));
             elem.removeAttribute("data-srcset");
         });
     },
-    "fastVisibilityCheck":true,
-    "rootMargin":100
+    "fastVisibilityCheck": true,
+    "rootMargin": 100
 });</code></pre>
                 <figcaption><span>A stripped down version of the demo source code</figcaption>
             </figure>
@@ -175,7 +175,6 @@ if("peekaboo" in window
             if(img
                 && img.nodeName === "IMG"
                 && img.classList.contains("lazyloaded")) {
-                    console.log('hi loaded', img.alt)
                 // Remove the "lazyloaded" classname and kick-off the fade-in
                 img.classList.remove("lazyloaded");
             }
@@ -187,9 +186,9 @@ if("peekaboo" in window
     // Start observing our images
     peekaboo.observe({
         // Pass in the querySelectorAll selector
-        "pattern":"img[data-srcset]",
+        "pattern": "img[data-srcset]",
         // The function invoked when images have passed the reveal point
-        "callback":function(imageList) {
+        "callback": function(imageList) {
             imageList.forEach(function(elem) {
                 // Add a class of "lazyloaded" to set the opacity to 0. This
                 // is removed during the images onload event which
@@ -201,9 +200,9 @@ if("peekaboo" in window
         },
         // As we know that the demo elements will not be contained within a
         // scroll container, we can set the fastVisibilityCheck to true
-        "fastVisibilityCheck":true,
+        "fastVisibilityCheck": true,
         // Reduce the rootMArgin to 100 pixels (from the 150px default)
-        "rootMargin":100
+        "rootMargin": 100
     });
 
 // If the browser cannot run the peekaboo script but can understand srcset

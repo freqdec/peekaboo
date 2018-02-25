@@ -71,8 +71,8 @@
         <p>The <code>peekaboo.observe</code> method is used to initiate the observation of DOM elements; for example:</p>
         <figure>
             <pre><code>peekaboo.observe({
-    "pattern":"img[data-srcset]",
-    "callback":function(elemArray) {
+    "pattern": "img[data-srcset]",
+    "callback": function(elemArray) {
         elemArray.forEach(function(elem) {
             elem.setAttribute("srcset", elem.getAttribute("data-srcset"));
             elem.removeAttribute("data-srcset");
@@ -138,8 +138,8 @@ peekaboo.observe();</code></pre>
         <figure><pre><code>if(peekaboo &amp;&amp; peekaboo.supported) {
     // Yeah, start doing cool things!
     peekaboo.observe({
-        "pattern":"pattern",
-        "callback":callbackFunction
+        "pattern": "pattern",
+        "callback": callbackFunction
     );
 } else {
     // Yikes, start the backup plan!
