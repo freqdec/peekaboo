@@ -14,10 +14,6 @@ article
     max-width: 60em;
     margin: 0 auto;
     }
-form
-    {
-    margin: 0 0 1.4em 0;
-    }
 a
     {
     color: #333332;
@@ -183,12 +179,6 @@ h2
 h2 
     {
     padding-bottom: 0;
-    }
-aside
-    {
-    border-left: 3px solid #aaa;
-    padding: 0 0 0 1em;
-    margin: 0 0 1.5em 0;
     }
 #demo-constrained
     {
