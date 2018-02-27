@@ -66,11 +66,12 @@ img
             <p>Using <a href="../../index.html">Peekaboo</a> to lazyload your nice responsive images. View the page source to see the gritty details.</p>
             <h2>HTML Markup</h2>
             <p>The demo was written with the following markup in mind:</p>
-            <pre><code>&lt;img src="/path/to/small/lowres/version.jpg"
+            <figure>
+                <pre><code>&lt;img src="/path/to/small/lowres/version.jpg"
      srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
      data-srcset="the actual required srcset declaration"
      alt="Alt text" /&gt;</code></pre>
-                 <figcaption><span>The markup used for the images within the demo</figcaption>
+                <figcaption><span>The markup used for the images within the demo</span></figcaption>
             </figure>
             <h2>The whys and the hows…</h2>
             <h3>src</h3>
@@ -98,13 +99,12 @@ img
     "fastVisibilityCheck": true,
     "rootMargin": 100
 });</code></pre>
-                <figcaption><span>A stripped down version of the demo source code</figcaption>
+                <figcaption><span>A stripped down version of the demo source code</span></figcaption>
             </figure>
-            <ul id="demo-1" class="demo">
-            </ul>
+            <ul id="demo-1" class="demo"></ul>
         </article>
         <!--
-        Loading the peekaboo script.
+        Load the peekaboo script.
         !-->
         <script src="../../peekaboo.js"></script>
         <script>
