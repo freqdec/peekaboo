@@ -40,7 +40,7 @@
             margin: 110% 2px 2px 2px;
         }
 
-        .lazyfadein {
+        .lazyAnimation {
             opacity: .2;
             transform: scale(0.4);
         }
@@ -54,12 +54,12 @@
 <body>
     <article>
         <h1 id="peekaboo-pantone-demo">Peekaboo Pantone Demo</h1>
-        <p>A simple demo that uses <a href="../../index.html">Peekaboo</a> to animate 500 list items (dressed up as Pantone cards) as they scroll into view is shown below. A demo that covers <a href="../srcset-lazyload/index.html">lazyloading responsive images</a> is also available.</p>
+        <p>A simple demo that uses <a href="../../index.html">Peekaboo</a> to animate 500 list items as they scroll into view is shown below. A demo that covers <a href="../srcset-lazyload/index.html">lazyloading responsive images</a> is also available.</p>
         <figure><pre><code>peekaboo.observe({
-    "pattern": ".lazyfadein",
-    "callback": function(elemArray) {
+    pattern: '.lazyAnimation',
+    callback: function(elemArray) {
         elemArray.forEach(function(elem) {
-            elem.className = "";
+            elem.className = '';
         })
     }
 });</code></pre>
@@ -82,6 +82,7 @@ Start: Demo scaffolding...
 (function() {
     function createListElements() {
         var docFrag = document.createDocumentFragment(),
+            animationClass = peekaboo && peekaboo.supported ? 'lazyAnimation' : '',
             li, span, i, backgroundColor;
 
         for (i = 1; i < 250; i++) {
@@ -90,7 +91,7 @@ Start: Demo scaffolding...
             li = document.createElement('li');
             span = document.createElement('span');
             // Set a classname we can use later when invoking the peekaboo script
-            li.className = peekaboo && peekaboo.supported ? "lazyfadein" : "";
+            li.className = animationClass;
             span.appendChild(document.createTextNode(backgroundColor));
             li.appendChild(span);
             
@@ -101,8 +102,8 @@ Start: Demo scaffolding...
         return docFrag;
     }
 
-    document.getElementById("demo-1").appendChild(createListElements());
-    document.getElementById("demo-2").appendChild(createListElements());
+    document.getElementById('demo-1').appendChild(createListElements());
+    document.getElementById('demo-2').appendChild(createListElements());
 /*
 End: Demo scaffolding...
 ---------------------------------------------------------------------------------- */
@@ -111,12 +112,12 @@ End: Demo scaffolding...
     if(peekaboo && peekaboo.supported) {
         peekaboo.observe({
             // Pass in the querySelectorAll selector
-            "pattern": ".lazyfadein",
+            pattern: '.lazyAnimation',
             // The function invoked when elements have passed the reveal point
-            "callback": function(elemArray) {
+            callback: function(elemArray) {
                 elemArray.forEach(function(elem) {
-                    // Simply remove the .lazyloaded classname to animate to full opacity
-                    elem.className = "";
+                    // Simply remove the .lazyAnimation classname to initiate the animation
+                    elem.className = '';
                 })
             }
         });
